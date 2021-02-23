@@ -33,6 +33,8 @@ Board::~Board() {
 };
 
 void Board::generateBoard() {
+    //REMEMBER TO DELETE THE ARRAY USING A FOR LOOP
+
     //Dynamic array (size of rows) of pointers
     m_grid = new Cell*[m_rows];
 
