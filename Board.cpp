@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "Cell.h"
 #include <iostream>
 #include <string> 
 #include <algorithm>
@@ -14,6 +15,7 @@ Board::Board() {
     m_rows = 0;
     m_columns = 0;
     m_populationDensity = 0;
+    m_currGeneration = 0;
 };
 
 //overloaded constructor
@@ -21,26 +23,30 @@ Board::Board(int height, int width, float popDens) {
     m_rows = height;
     m_columns = width;
     m_populationDensity = popDens;
+    m_currGeneration = 0;
 }
 
 //Deconstructor
 Board::~Board() {
     delete [] m_grid;
+    delete [] m_currentCells;
 };
 
 void Board::generateBoard() {
     //Dynamic array (size of rows) of pointers
-    m_grid = new char*[m_rows];
+    m_grid = new Cell*[m_rows];
 
     //Each i-th pointer points to a dynamic array
     for (int i = 0; i < m_rows; ++i) {
-        m_grid[i] = new char[m_columns];
+        m_grid[i] = new Cell[m_columns];
     }
 
     //Filling the array with characters
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
-            m_grid[i][j] = '-';
+            Cell* cell = new Cell();
+            m_grid[i][j] = *cell;
+            cell->setLocation(i,j);
         }
     }    
 }
@@ -73,12 +79,14 @@ void Board::populateBoard() {
         cout << cellArray[i] << endl;
     } 
 
+
     //Filling the array with X
+    //Setting the Cell class
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
             for (int k = 0; k < population; ++k) {
                 if (cellArray[k] == (i*10 + j)) {
-                    m_grid[i][j] = 'X';
+                    m_grid[i][j].setStatus(true);
                 }
             }
         }
@@ -86,51 +94,100 @@ void Board::populateBoard() {
 
 }
 
-    // //int *result = std::find(myArray, end, 0);
-    // if (result != end) {
-    //  // found value at "result" pointer location...
-    // }    
+void Board::updateBoard() {
+    if (m_currGeneration > 3) {
 
-            // do {            
-        //     randomNum = rand()%gridSize + 1;
-        //     cout << randomNum << endl;
-        //     for (int j = 0; j < population; ++i) {
-        //         if (randomNum == cellArray[j]) {
-        //             loop = true;
-        //             break;
-        //         }    
-        //     }
-        // } while (loop);
+    } else if (m_currGeneration == 0) {
+        for (int i = 0; i < m_rows; ++i) {
+            for (int j = 0; j < m_columns; ++j) {
+                cout << m_grid[i][j].getNeighbors();
+            } cout << endl;
+        }
+    } 
+}
 
-        // bool duplicate = false;
-        // while (!duplicate) {
-        //     randomNum = rand()%gridSize + 1;
-        //     for (int j = 0; j < population; ++i) {
-        //         cout << "initial loop" << endl;
-        //         if (randomNum == cellArray[j]) {
-        //             cout << "made it in loop" << endl;
-        //             duplicate = true;
-        //             break;
-        //         }    
-        //     }
-        //     if (!duplicate) {
-        //         cellArray[i] = randomNum;
-        //         break;
-        //     } else {
-        //         duplicate = false;
-        //     }
-        // }
+void Board::testNeighbors() {
+    int neighbors = 0;
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_columns; ++j) {
+            cout << m_grid[i][j].isAlive();
+        }
+        cout << endl;
+    }
+}
 
-    
-    
-
+void Board::setNeighbors() {
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_columns; ++j) {
+            int neighbors = 0;
+            //Upperbound
+            if (i != 0) {
+                //Above
+                if(m_grid[i-1][j].isAlive()) {
+                    neighbors++;
+                }
+                //LeftBound
+                if (j != 0) {
+                    //Upper Left
+                    if(m_grid[i-1][j-1].isAlive()) {
+                        neighbors++;
+                    }
+                }
+                //RightBound
+                if (j != m_columns - 1) {
+                    //Upper Right
+                    if(m_grid[i-1][j+1].isAlive()) {
+                        neighbors++;
+                    }
+                }
+            }
+        
+            //Lowerbound
+            if (i != m_rows - 1) {
+                //Below
+                if(m_grid[i+1][j].isAlive()) {
+                    neighbors++;
+                }
+                //LeftBound
+                if (j != 0) {
+                    //Bottom Left
+                    if(m_grid[i+1][j-1].isAlive()) {
+                        neighbors++;
+                    }
+                }
+                //RightBound
+                if (j != m_columns - 1) {
+                    //Bottom Right
+                    if(m_grid[i+1][j+1].isAlive()) {
+                        neighbors++;
+                    }
+                }
+            }
+            //RightBound
+            if (j != m_columns - 1) {
+                //Right
+                if(m_grid[i][j+1].isAlive()) {
+                    neighbors++;
+                }
+            }
+            //LeftBound
+            if (j != 0) {
+                //Left
+                if(m_grid[i][j-1].isAlive()) {
+                    neighbors++;
+                }
+            }
+            m_grid[i][j].setNeighbors(neighbors);
+        }
+    }
+}
 
 void Board::printBoard() {
     cout << "Number of rows: " << m_rows << endl;
     cout << "Number of columns: " << m_columns << endl;
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
-            cout << m_grid[i][j];
+            cout << m_grid[i][j].printCell();
         }
         cout << endl;
     }

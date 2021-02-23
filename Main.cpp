@@ -9,5 +9,8 @@ int main(int argc, char **argv) {
     myBoard->generateBoard();
     myBoard->populateBoard();
     myBoard->printBoard();
+    myBoard->setNeighbors(); //segmentation fault here
+    //myBoard->testNeighbors();
+    myBoard->updateBoard();
 
 };
