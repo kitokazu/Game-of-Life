@@ -28,8 +28,11 @@ Board::Board(int height, int width, float popDens) {
 
 //Deconstructor
 Board::~Board() {
-    delete [] m_grid;
     delete [] m_currentCells;
+    for (int i = 0; i < m_rows; ++i) {
+        delete [] m_grid[i];
+    }
+    delete [] m_grid;
 };
 
 void Board::generateBoard() {
@@ -64,69 +67,54 @@ void Board::populateBoard() {
     //Found this on the internet
     srand (time(NULL));
 
-    for (int i = 0; i < population; ++i) {
-        cellArray[i] = 0;
-    }
-    
-    //Setting the number of cells based on population density
-    //FIX REPEATING RANDOM NUMBERS
-    for (int i = 0; i < population; ++i) {
-      randomNum = rand()%gridSize + 1;
-      for (int j = 0; j < population; ++j) {
-        if (cellArray[j] == randomNum)  {
-            randomNum = rand()%gridSize + 1;
-            }
-        }
-        cellArray[i] = randomNum;
-        //cout << cellArray[i] << endl;
-    } 
-
     cout << "Number of rows: " << m_rows << endl;
     cout << "Number of columns: " << m_columns << endl;
 
-
-    //Filling the array with X
-    //Setting the Cell class
-    for (int i = 0; i < m_rows; ++i) {
-        for (int j = 0; j < m_columns; ++j) {
-            for (int k = 0; k < population; ++k) {
-                if (cellArray[k] == (i*10 + j)) {
-                    m_grid[i][j].setStatus(true);
-                }
-            }
+    //Population the board randomly
+    //Got this from Professor german
+    int count = 0;
+    int r =0;
+    int c = 0;
+    while(count < population) {
+        r = rand()%m_rows;
+        c = rand()%m_columns;
+        if (m_grid[r][c].isAlive()) {
+            continue;
         }
+        m_grid[r][c].setStatus(true);
+        count++;
     }
-
 }
 
 void Board::updateBoard() {
     for (int i = 0; i < m_rows; ++i) {
-            for (int j = 0; j < m_columns; ++j) {
-                //Dies of lonliness
-                if(m_grid[i][j].getAvgNeighbors() < 1.5) {
-                    m_grid[i][j].setStatus(false);
-                    //continue;
-                } 
-                //Stays alive/dead depending on what it was
-                else if (m_grid[i][j].getAvgNeighbors() < 2.5) {
-                    //continue;
-                }
-                //Stays alive or new cell is born
-                else if (m_grid[i][j].getAvgNeighbors() < 3.5) {
-                    m_grid[i][j].setStatus(true);
-                    //continue;
-                }
-                else if (m_grid[i][j].getAvgNeighbors() > 3.51) {
-                    m_grid[i][j].setStatus(false);
-                }
-                cout << m_grid[i][j].getAvgNeighbors() << " ";
+        for (int j = 0; j < m_columns; ++j) {
+            //Dies of lonliness
+            if(m_grid[i][j].getAvgNeighbors() < 1.5) {
+                m_grid[i][j].setStatus(false);
+                //continue;
             } 
-            cout << endl;
+            //Stays alive/dead depending on what it was
+            else if (m_grid[i][j].getAvgNeighbors() < 2.5) {
+                //continue;
+            }
+            //Stays alive or new cell is born
+            else if (m_grid[i][j].getAvgNeighbors() < 3.5) {
+                m_grid[i][j].setStatus(true);
+                //continue;
+            }
+            else if (m_grid[i][j].getAvgNeighbors() > 3.51) {
+                m_grid[i][j].setStatus(false);
+            }
+            //cout << m_grid[i][j].getAvgNeighbors() << " ";
+        } 
+            //cout << endl;
     
-        }
-        ++m_currGeneration;
-
+    }
+    ++m_currGeneration;
 }
+
+
 
 void Board::testNeighbors() {
     int neighbors = 0;
@@ -214,6 +202,7 @@ void Board::printBoard() {
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 

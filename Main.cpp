@@ -1,53 +1,19 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #include "Board.h"
+#include "Simulation.h"
 
 using namespace std;
 
 int main(int argc, char **argv) {
-    Board* myBoard = new Board(5,5,0.5);
-    //Generating grid
-    myBoard->generateBoard();
-    
-    //Generation 0
-    myBoard->populateBoard();
-    myBoard->printBoard();
+    int mode;
 
-    //Generation 1
-    myBoard->setNeighbors();
-    myBoard->updateBoard();
-    myBoard->printBoard();
-
-    //Generation 2
-    myBoard->setNeighbors();
-    myBoard->updateBoard();
-    myBoard->printBoard();
-
-    //Generation 3
-    myBoard->setNeighbors();
-    myBoard->updateBoard();
-    myBoard->printBoard();
-
-    
-    //Generation 4
-    myBoard->setNeighbors();
-    myBoard->updateBoard();
-    myBoard->printBoard();
-    
-    
-    //Generation 5
-    myBoard->setNeighbors();
-    myBoard->updateBoard();
-    myBoard->printBoard();
-
-
-
-
-
-
-
-
-
-
+    //SPECIFY HERE TO HAVE RANDOM NUMBERS OR GET FROM FILE
+    cout << "What boundry mode would you like to run the program?" << endl;
+    cout << "1. Classic" << endl << "2. Donut" << endl << "3. Mirror" << endl;
+    cin >> mode;
+    Simulation* simulation = new Simulation(mode,5,5,0.7);
+    simulation->run();
 
 };
