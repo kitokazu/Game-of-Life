@@ -78,8 +78,11 @@ void Board::populateBoard() {
             }
         }
         cellArray[i] = randomNum;
-        cout << cellArray[i] << endl;
+        //cout << cellArray[i] << endl;
     } 
+
+    cout << "Number of rows: " << m_rows << endl;
+    cout << "Number of columns: " << m_columns << endl;
 
 
     //Filling the array with X
@@ -97,15 +100,32 @@ void Board::populateBoard() {
 }
 
 void Board::updateBoard() {
-    if (m_currGeneration > 3) {
-
-    } else if (m_currGeneration == 0) {
-        for (int i = 0; i < m_rows; ++i) {
+    for (int i = 0; i < m_rows; ++i) {
             for (int j = 0; j < m_columns; ++j) {
-                cout << m_grid[i][j].getNeighbors();
-            } cout << endl;
+                //Dies of lonliness
+                if(m_grid[i][j].getAvgNeighbors() < 1.5) {
+                    m_grid[i][j].setStatus(false);
+                    //continue;
+                } 
+                //Stays alive/dead depending on what it was
+                else if (m_grid[i][j].getAvgNeighbors() < 2.5) {
+                    //continue;
+                }
+                //Stays alive or new cell is born
+                else if (m_grid[i][j].getAvgNeighbors() < 3.5) {
+                    m_grid[i][j].setStatus(true);
+                    //continue;
+                }
+                else if (m_grid[i][j].getAvgNeighbors() > 3.51) {
+                    m_grid[i][j].setStatus(false);
+                }
+                cout << m_grid[i][j].getAvgNeighbors() << " ";
+            } 
+            cout << endl;
+    
         }
-    } 
+        ++m_currGeneration;
+
 }
 
 void Board::testNeighbors() {
@@ -180,13 +200,14 @@ void Board::setNeighbors() {
                 }
             }
             m_grid[i][j].setNeighbors(neighbors);
+            m_grid[i][j].setAvgNeighbors(m_currGeneration%3);
         }
+       //cout << endl;
     }
 }
 
 void Board::printBoard() {
-    cout << "Number of rows: " << m_rows << endl;
-    cout << "Number of columns: " << m_columns << endl;
+    cout << "Generation: " << m_currGeneration << endl;
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
             cout << m_grid[i][j].printCell();
