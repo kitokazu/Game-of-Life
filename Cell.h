@@ -22,13 +22,13 @@ class Cell {
         char printCell();
         void setLocation(int row, int column);
         void setStatus(bool alive);
-        void setNeighbors(int neighbors);
+        void setAmtNeighbors(int neighbors);
         void setAvgNeighbors(int gen);
         void setGeneration(int gen);
 
 
         float getAvgNeighbors();
-        int getNeighbors();
+        int getAmtNeighbors();
         int getRow();
         int getColumn();
         // void setTempStatus(bool tempAlive);

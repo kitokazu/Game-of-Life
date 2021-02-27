@@ -5,11 +5,14 @@
 #include "Board.h"
 using namespace std;
 
-class ClassicBoard {
+class ClassicBoard : public Board {
     private:
+    protected:
     public:
         ClassicBoard();
+        ClassicBoard(int height, int width, float popDens);
         ~ClassicBoard();
+        void setNeighbors();
 };
 
 #endif

@@ -1,5 +1,7 @@
 #include "Simulation.h"
 #include "Board.h"
+#include "DonutBoard.h"
+#include "ClassicBoard.h"
 #include <time.h>
 #include <iostream>
 #include <string>
@@ -40,21 +42,29 @@ void Simulation::run() {
 
 void Simulation::pauseMode() {
     if (m_mode == 1) {
-        Board* myBoard = new Board(m_rows, m_columns, m_popDensity);
+        ClassicBoard* myBoard = new ClassicBoard(m_rows, m_columns, m_popDensity);
         //Generating grid
         myBoard->generateBoard();
 
         //Generation 0
         myBoard->populateBoard();
+        myBoard->setGeneration();
         myBoard->printBoard();
         sleep(1);
 
         while(true) {
             myBoard->setNeighbors();
             myBoard->updateBoard();
+            myBoard->setGeneration();
             myBoard->printBoard();
+            if (myBoard->isStable()) {
+                cout << "A STABLE GENERATION HAS BEEN REACHED" << endl;
+                break;
+            }
             sleep(1);
         }
+
+        //CHANGE CODE ABOVE TO A DO WHILE?
     }
 }
 

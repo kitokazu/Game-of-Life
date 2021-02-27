@@ -44,11 +44,11 @@ char Cell::printCell() {
     }
 };
 
-int Cell::getNeighbors() {
+int Cell::getAmtNeighbors() {
     return m_neighbors;
 }
 
-void Cell::setNeighbors(int neighbors) {
+void Cell::setAmtNeighbors(int neighbors) {
     m_neighbors = neighbors;
 }
 

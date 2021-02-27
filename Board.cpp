@@ -16,6 +16,10 @@ Board::Board() {
     m_columns = 0;
     m_populationDensity = 0;
     m_currGeneration = 0;
+    m_generation1 = "";
+    m_generation2 = "";
+    m_generation3 = "";
+    m_generation4 = "";
 };
 
 //overloaded constructor
@@ -71,7 +75,7 @@ void Board::populateBoard() {
     cout << "Number of columns: " << m_columns << endl;
 
     //Population the board randomly
-    //Got this from Professor german
+    //Got this from Professor
     int count = 0;
     int r =0;
     int c = 0;
@@ -126,74 +130,6 @@ void Board::testNeighbors() {
     }
 }
 
-void Board::setNeighbors() {
-    for (int i = 0; i < m_rows; ++i) {
-        for (int j = 0; j < m_columns; ++j) {
-            int neighbors = 0;
-            //Upperbound
-            if (i != 0) {
-                //Above
-                if(m_grid[i-1][j].isAlive()) {
-                    neighbors++;
-                }
-                //LeftBound
-                if (j != 0) {
-                    //Upper Left
-                    if(m_grid[i-1][j-1].isAlive()) {
-                        neighbors++;
-                    }
-                }
-                //RightBound
-                if (j != m_columns - 1) {
-                    //Upper Right
-                    if(m_grid[i-1][j+1].isAlive()) {
-                        neighbors++;
-                    }
-                }
-            }
-        
-            //Lowerbound
-            if (i != m_rows - 1) {
-                //Below
-                if(m_grid[i+1][j].isAlive()) {
-                    neighbors++;
-                }
-                //LeftBound
-                if (j != 0) {
-                    //Bottom Left
-                    if(m_grid[i+1][j-1].isAlive()) {
-                        neighbors++;
-                    }
-                }
-                //RightBound
-                if (j != m_columns - 1) {
-                    //Bottom Right
-                    if(m_grid[i+1][j+1].isAlive()) {
-                        neighbors++;
-                    }
-                }
-            }
-            //RightBound
-            if (j != m_columns - 1) {
-                //Right
-                if(m_grid[i][j+1].isAlive()) {
-                    neighbors++;
-                }
-            }
-            //LeftBound
-            if (j != 0) {
-                //Left
-                if(m_grid[i][j-1].isAlive()) {
-                    neighbors++;
-                }
-            }
-            m_grid[i][j].setNeighbors(neighbors);
-            m_grid[i][j].setAvgNeighbors(m_currGeneration%3);
-        }
-       //cout << endl;
-    }
-}
-
 void Board::printBoard() {
     cout << "Generation: " << m_currGeneration << endl;
     for (int i = 0; i < m_rows; ++i) {
@@ -203,6 +139,53 @@ void Board::printBoard() {
         cout << endl;
     }
     cout << endl;
+}
+
+bool Board::isStable() {
+    if ((m_generation1 == m_generation2) && (m_generation1 == m_generation3)) {
+        return true;
+    }
+    if ((m_generation2 == m_generation3) && (m_generation2 == m_generation4)) {
+        return true;
+    }
+    if ((m_generation3 == m_generation4) && (m_generation1 == m_generation4)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+void Board::setGeneration() {
+    if (m_currGeneration%4 == 0) {m_generation1 = "";}
+    if (m_currGeneration%4 == 1) {m_generation2 = "";}
+    if (m_currGeneration%4 == 2) {m_generation3 = "";}
+    if (m_currGeneration%4 == 3) {m_generation4 = "";}
+ 
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_columns; ++j) {
+
+            if (m_currGeneration%4 == 0) {
+                m_generation1 += m_grid[i][j].printCell();
+            }
+            if (m_currGeneration%4 == 1) {
+                m_generation2 += m_grid[i][j].printCell();
+            }
+            if (m_currGeneration%4 == 2) {
+                m_generation3 += m_grid[i][j].printCell();
+            }
+            if (m_currGeneration%4 == 3) {
+                m_generation4 += m_grid[i][j].printCell();
+            }
+            
+        }
+    }
+    cout << m_generation1 << endl;
+    cout << m_generation2 << endl;
+    cout << m_generation3 << endl;
+    cout << m_generation4 << endl;
+
 }
 
 

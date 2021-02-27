@@ -5,10 +5,11 @@
 #include "Board.h"
 using namespace std;
 
-class DonutBoard {
+class DonutBoard : public Board {
     private:
     public:
         DonutBoard();
+        DonutBoard(int height, int width, float popDens);
         ~DonutBoard();
         
 };

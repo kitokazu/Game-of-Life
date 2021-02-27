@@ -18,6 +18,10 @@ class Board {
         int m_rows;
         int m_columns;
         float m_populationDensity;
+        string m_generation1;
+        string m_generation2;
+        string m_generation3;
+        string m_generation4;
 
     public:
         Board();
@@ -27,7 +31,9 @@ class Board {
         void printBoard();
         void populateBoard();
         void updateBoard();
-        void setNeighbors();
         void testNeighbors();
+        void setGeneration();
+        bool isStable();
+
 };
 #endif
