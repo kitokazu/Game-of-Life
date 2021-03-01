@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
     cout << "What boundry mode would you like to run the program?" << endl;
     cout << "1. Classic" << endl << "2. Donut" << endl << "3. Mirror" << endl;
     cin >> mode;
-    Simulation* simulation = new Simulation(mode,5,5,0.7);
+    Simulation* simulation = new Simulation(mode,7,10,0.5);
     simulation->run();
 
 };

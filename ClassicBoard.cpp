@@ -98,6 +98,5 @@ void ClassicBoard::setNeighbors() {
             m_grid[i][j].setAvgNeighbors(m_currGeneration%3);
             
         }
-       //cout << endl;
     }
 }

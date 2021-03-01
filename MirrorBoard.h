@@ -5,10 +5,16 @@
 #include "Board.h"
 using namespace std;
 
-class MirrorBoard {
+class MirrorBoard : public Board{
     public:
-    private:
         MirrorBoard();
+        MirrorBoard(int height, int width, float popDens);
         ~MirrorBoard();
+        void setNeighbors();
+        void showNeighbors();
+        // bool isStable();
+        // void setGeneration();
+    private:
+        
 };
 #endif

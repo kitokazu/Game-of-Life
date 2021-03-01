@@ -14,6 +14,7 @@ class Board {
     protected:
         Cell **m_grid;
         Cell *m_currentCells;
+        string generations [4];
         int m_currGeneration;
         int m_rows;
         int m_columns;
@@ -22,6 +23,7 @@ class Board {
         string m_generation2;
         string m_generation3;
         string m_generation4;
+        string m_generation5;
 
     public:
         Board();
@@ -33,6 +35,7 @@ class Board {
         void updateBoard();
         void testNeighbors();
         void setGeneration();
+        void showNeighbors();
         bool isStable();
 
 };

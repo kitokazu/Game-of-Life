@@ -11,6 +11,10 @@ class DonutBoard : public Board {
         DonutBoard();
         DonutBoard(int height, int width, float popDens);
         ~DonutBoard();
+
+        void setNeighbors();
+        // void setGeneration();
+        // bool isStable();
         
 };
 

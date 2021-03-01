@@ -20,6 +20,8 @@ Board::Board() {
     m_generation2 = "";
     m_generation3 = "";
     m_generation4 = "";
+    m_generation5 = "";
+
 };
 
 //overloaded constructor
@@ -37,6 +39,7 @@ Board::~Board() {
         delete [] m_grid[i];
     }
     delete [] m_grid;
+    //delete [] this->generations;
 };
 
 void Board::generateBoard() {
@@ -121,10 +124,9 @@ void Board::updateBoard() {
 
 
 void Board::testNeighbors() {
-    int neighbors = 0;
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
-            cout << m_grid[i][j].isAlive();
+            cout << m_grid[i][j].getAvgNeighbors();
         }
         cout << endl;
     }
@@ -142,50 +144,71 @@ void Board::printBoard() {
 }
 
 bool Board::isStable() {
-    if ((m_generation1 == m_generation2) && (m_generation1 == m_generation3)) {
-        return true;
-    }
-    if ((m_generation2 == m_generation3) && (m_generation2 == m_generation4)) {
-        return true;
-    }
-    if ((m_generation3 == m_generation4) && (m_generation1 == m_generation4)) {
-        return true;
-    }
-    else {
+    if (m_currGeneration < 4) {
         return false;
     }
-
+    if (m_generation1 == m_generation3) return true;
+    if(m_generation1 == m_generation2) return true;
+    if(m_generation1 == m_generation4) return true;
+    if(m_generation1 == m_generation5) return true;
+    if(m_generation2 == m_generation3) return true;
+    if(m_generation2 == m_generation4) return true;
+    if(m_generation2 == m_generation5) return true;
+    if(m_generation3 == m_generation4) return true;
+    if(m_generation3 == m_generation5) return true;
+    if(m_generation4 == m_generation5) return true;
+    return false;
 }
 
 void Board::setGeneration() {
-    if (m_currGeneration%4 == 0) {m_generation1 = "";}
-    if (m_currGeneration%4 == 1) {m_generation2 = "";}
-    if (m_currGeneration%4 == 2) {m_generation3 = "";}
-    if (m_currGeneration%4 == 3) {m_generation4 = "";}
- 
+    if (m_currGeneration%5 == 0) {m_generation1 = "";}
+    if (m_currGeneration%5 == 1) {m_generation2 = "";}
+    if (m_currGeneration%5 == 2) {m_generation3 = "";}
+    if (m_currGeneration%5 == 3) {m_generation4 = "";}
+    if (m_currGeneration%5 == 4) {m_generation5 = "";}
+
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
 
-            if (m_currGeneration%4 == 0) {
+            if (m_currGeneration%5 == 0) {
                 m_generation1 += m_grid[i][j].printCell();
             }
-            if (m_currGeneration%4 == 1) {
+            if (m_currGeneration%5 == 1) {
                 m_generation2 += m_grid[i][j].printCell();
             }
-            if (m_currGeneration%4 == 2) {
+            if (m_currGeneration%5 == 2) {
                 m_generation3 += m_grid[i][j].printCell();
             }
-            if (m_currGeneration%4 == 3) {
+            if (m_currGeneration%5 == 3) {
                 m_generation4 += m_grid[i][j].printCell();
+            }
+             if (m_currGeneration%5 == 4) {
+                m_generation5 += m_grid[i][j].printCell();
             }
             
         }
     }
+    
     cout << m_generation1 << endl;
     cout << m_generation2 << endl;
     cout << m_generation3 << endl;
     cout << m_generation4 << endl;
+    cout << m_generation5 << endl;  
+    cout << endl;
 
+}
+
+
+
+
+void Board::showNeighbors() {
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_columns; ++j) {
+            cout << m_grid[i][j].getAmtNeighbors();
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 
