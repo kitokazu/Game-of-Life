@@ -25,6 +25,13 @@ DonutBoard::DonutBoard(int height, int width, float popDens) {
     m_currGeneration = 0;
 }
 
+//overloaded constructor
+DonutBoard::DonutBoard(int height, int width, string inputFile) {
+    m_rows = height;
+    m_columns = width;
+    m_inputFile = inputFile;
+}
+
 //Deconstructor
 DonutBoard::~DonutBoard() {
     delete [] m_currentCells;
@@ -34,6 +41,8 @@ DonutBoard::~DonutBoard() {
     delete [] m_grid;
 };
 
+//Sets the neighbors for each cell in the grid
+//Have bunch of conditionals to check for neighbors
 void DonutBoard::setNeighbors() {
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
@@ -203,69 +212,12 @@ void DonutBoard::setNeighbors() {
                     neighbors++;
                 }
             }
+            //Sets the amount of neighbors
             m_grid[i][j].setAmtNeighbors(neighbors);
+            //Sets the amouunt of average neigbors for the corresponding cell
             m_grid[i][j].setAvgNeighbors(m_currGeneration%3);
         }
     }
 }
-
-
-// void DonutBoard::setGeneration() {
-//     if (m_currGeneration%5 == 0) {m_generation1 = "";}
-//     if (m_currGeneration%5 == 1) {m_generation2 = "";}
-//     if (m_currGeneration%5 == 2) {m_generation3 = "";}
-//     if (m_currGeneration%5 == 3) {m_generation4 = "";}
-//     if (m_currGeneration%5 == 4) {m_generation5 = "";}
-
-//     for (int i = 0; i < m_rows; ++i) {
-//         for (int j = 0; j < m_columns; ++j) {
-
-//             if (m_currGeneration%5 == 0) {
-//                 m_generation1 += m_grid[i][j].printCell();
-//             }
-//             if (m_currGeneration%5 == 1) {
-//                 m_generation2 += m_grid[i][j].printCell();
-//             }
-//             if (m_currGeneration%5 == 2) {
-//                 m_generation3 += m_grid[i][j].printCell();
-//             }
-//             if (m_currGeneration%5 == 3) {
-//                 m_generation4 += m_grid[i][j].printCell();
-//             }
-//              if (m_currGeneration%5 == 4) {
-//                 m_generation5 += m_grid[i][j].printCell();
-//             }
-            
-//         }
-//     }
-    
-//     cout << m_generation1 << endl;
-//     cout << m_generation2 << endl;
-//     cout << m_generation3 << endl;
-//     cout << m_generation4 << endl;
-//     cout << m_generation5 << endl;  
-//     cout << endl;
-
-// }
-
-// bool DonutBoard::isStable() {
-//      if (m_currGeneration < 4) {
-//         return false;
-//     }
-//     if ((m_generation1 == m_generation2) && (m_generation1 == m_generation3)) return true;
-//     if ((m_generation1 == m_generation2) && (m_generation1 == m_generation4)) return true;
-//     if ((m_generation1 == m_generation2) && (m_generation1 == m_generation5)) return true;
-//     if ((m_generation1 == m_generation3) && (m_generation1 == m_generation4)) return true;
-//     if ((m_generation1 == m_generation3) && (m_generation1 == m_generation5)) return true;
-//     if ((m_generation1 == m_generation4) && (m_generation1 == m_generation5)) return true;
-//     if ((m_generation2 == m_generation3) && (m_generation2 == m_generation4)) return true;
-//     if ((m_generation2 == m_generation3) && (m_generation2 == m_generation5)) return true;
-//     if ((m_generation2 == m_generation4) && (m_generation2 == m_generation5)) return true;
-//     if ((m_generation2 == m_generation3) && (m_generation2 == m_generation4)) return true;
-//     if ((m_generation3 == m_generation4) && (m_generation3 == m_generation5)) return true;
-//     return false;
-// }
-
-
 
 

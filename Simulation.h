@@ -11,12 +11,17 @@ class Simulation{
         int m_rows;
         int m_columns;
         float m_popDensity;
+        string m_inputFile;
+
     public:
         Simulation();
         Simulation(int mode, int rows, int columns, float popDensity);
         ~Simulation();
         void run();
         void pauseMode();
+        void enterMode();
+        //void getFile();
+        void fileMode();
         void sleep(int seconds);
 };
 

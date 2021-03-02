@@ -24,6 +24,13 @@ ClassicBoard::ClassicBoard(int height, int width, float popDens) {
     m_currGeneration = 0;
 }
 
+//overloaded constructor
+ClassicBoard::ClassicBoard(int height, int width, string inputFile) {
+    m_rows = height;
+    m_columns = width;
+    m_inputFile = inputFile;
+}
+
 //Deconstructor
 ClassicBoard::~ClassicBoard() {
     delete [] m_currentCells;
@@ -33,6 +40,8 @@ ClassicBoard::~ClassicBoard() {
     delete [] m_grid;
 };
 
+//Sets the neighbors for each cell in the grid
+//Have bunch of conditionals to check for neighbors
 void ClassicBoard::setNeighbors() {
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
@@ -94,7 +103,9 @@ void ClassicBoard::setNeighbors() {
                     neighbors++;
                 }
             }
+            //Sets the amount of neighbors
             m_grid[i][j].setAmtNeighbors(neighbors);
+            //Sets the amouunt of average neigbors for the corresponding cell
             m_grid[i][j].setAvgNeighbors(m_currGeneration%3);
             
         }

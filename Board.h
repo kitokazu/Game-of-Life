@@ -19,6 +19,7 @@ class Board {
         int m_rows;
         int m_columns;
         float m_populationDensity;
+        string m_inputFile;
         string m_generation1;
         string m_generation2;
         string m_generation3;
@@ -28,14 +29,16 @@ class Board {
     public:
         Board();
         Board(int height, int width, float popDens);
+        Board(int height, int width, string inputFile);
         ~Board();
+        string getBoard();
         void generateBoard();
+        void fileToBoard();
+        void setBoard();
         void printBoard();
         void populateBoard();
         void updateBoard();
-        void testNeighbors();
         void setGeneration();
-        void showNeighbors();
         bool isStable();
 
 };

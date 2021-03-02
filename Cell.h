@@ -9,7 +9,6 @@ class Cell {
         int m_currRow;
         int m_currColumn;
         bool m_alive;
-        // bool m_tempAlive;
         int m_neighbors;
         float m_avgNeighbors;
         float m_firstN;
@@ -24,15 +23,10 @@ class Cell {
         void setStatus(bool alive);
         void setAmtNeighbors(int neighbors);
         void setAvgNeighbors(int gen);
-        void setGeneration(int gen);
-
-
         float getAvgNeighbors();
         int getAmtNeighbors();
         int getRow();
         int getColumn();
-        // void setTempStatus(bool tempAlive);
-        // bool isTempAlive();
         bool isAlive();
     
 };

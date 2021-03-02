@@ -3,6 +3,7 @@
 #include "Cell.h"
 using namespace std;
 
+//Default Constructor
 Cell::Cell() {    
     m_currRow = -1;
     m_currColumn = -1;
@@ -16,26 +17,22 @@ Cell::Cell() {
     m_avgNeighbors = 0;
 };
 
+//Destructor
 Cell::~Cell() {
 };
 
+//sets the status of the cell to alive or dead
 void Cell::setStatus(bool alive) {
     m_alive = alive;
 }
 
-// void Cell::setTempStatus(bool tempAlive) {
-//     m_tempAlive = tempAlive;
-// }
-
-// bool Cell::isTempAlive(){
-//     return m_tempAlive;
-// }
-
-
+//Returns if then cell is alive
 bool Cell::isAlive() {
     return m_alive;
 }
 
+//prints X if the cell is alive
+//prints - if the cell is dead
 char Cell::printCell() {
     if (m_alive) {
         return 'X';
@@ -44,26 +41,32 @@ char Cell::printCell() {
     }
 };
 
+//Returns the amount of neigbors
 int Cell::getAmtNeighbors() {
     return m_neighbors;
 }
 
+//sets the amount of neighbors
 void Cell::setAmtNeighbors(int neighbors) {
     m_neighbors = neighbors;
 }
 
+//sets the location of neighbors
 void Cell::setLocation(int row, int column) {
     m_currRow = row;
     m_currColumn = column;
 }
 
+//returns the row
 int Cell::getRow(){
     return m_currRow;
 }
+//returns the columns
 int Cell::getColumn(){
     return m_currColumn;
 }
 
+//Calculates the average amount of neighbors based off the previous 3
 void Cell::setAvgNeighbors(int gen) {
     //If the generation number % 3 is: 
     if (gen == 0) {
@@ -82,19 +85,8 @@ void Cell::setAvgNeighbors(int gen) {
     m_avgNeighbors = (m_firstN + m_secondN + m_thirdN) / m_numGenerations;
 }
 
+//returns teh avg amount of neighbors
 float Cell::getAvgNeighbors() {
     return m_avgNeighbors;
-}
-
-void Cell::setGeneration(int gen) {
-    // if (gen == 0) {
-    //     firstN = m_currNeighbors;
-    // }
-    // else if (gen == 1)  {
-    //     secondN = m_currNeighbors;
-    // }
-    // else if (gen == 2) {
-    //     thirdn == m_currNeighors;
-    // }
 }
 

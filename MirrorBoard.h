@@ -9,6 +9,7 @@ class MirrorBoard : public Board{
     public:
         MirrorBoard();
         MirrorBoard(int height, int width, float popDens);
+        MirrorBoard(int height, int width, string inputFile);
         ~MirrorBoard();
         void setNeighbors();
         void showNeighbors();

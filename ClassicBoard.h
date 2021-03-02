@@ -11,6 +11,7 @@ class ClassicBoard : public Board {
     public:
         ClassicBoard();
         ClassicBoard(int height, int width, float popDens);
+        ClassicBoard(int height, int width, string inputFile);
         ~ClassicBoard();
         void setNeighbors();
 };

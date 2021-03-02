@@ -4,6 +4,7 @@
 #include <string> 
 #include <algorithm>
 #include <iterator>
+#include <fstream>
 
 //for random seed
 #include <time.h>
@@ -16,6 +17,7 @@ Board::Board() {
     m_columns = 0;
     m_populationDensity = 0;
     m_currGeneration = 0;
+    m_inputFile = "";
     m_generation1 = "";
     m_generation2 = "";
     m_generation3 = "";
@@ -30,6 +32,15 @@ Board::Board(int height, int width, float popDens) {
     m_columns = width;
     m_populationDensity = popDens;
     m_currGeneration = 0;
+}
+
+//overloaded constructor
+Board::Board(int height, int width, string inputFile) {
+    m_rows = height;
+    m_columns = width;
+    m_inputFile = inputFile;
+    m_currGeneration = 0;
+
 }
 
 //Deconstructor
@@ -61,6 +72,48 @@ void Board::generateBoard() {
             cell->setLocation(i,j);
         }
     }    
+}
+
+void Board::fileToBoard() {
+
+    //temporary strings 
+    string t;
+    //temporary strings 
+    string t1;
+    //For input
+    ifstream inFS;  
+    //string
+    string fileSentence;
+    //temp string
+    string generation = "";
+    //Opening input file
+    inFS.open(m_inputFile);
+    //If the input file does not exist
+    if(!inFS.is_open()) {
+        cout << "Error opening file" << endl;
+        return;
+    }
+    //ignores the first two lines of the file
+    //which are the rows and columns
+    getline(inFS,t);
+    getline(inFS,t1);
+    while(getline(inFS,fileSentence)) {
+        for (int i = 0; i < m_rows; ++i) {
+            for (int j = 0; j < m_columns; ++j) {
+                //If its a - it sets it to dead
+                if (fileSentence[j] == '-') {
+                    m_grid[i][j].setStatus(false);
+                }
+                //If its a X it sets it to alive
+                if (fileSentence[j] == 'X') {
+                    m_grid[i][j].setStatus(true);
+                }
+            }
+            //Goes to the next line
+            inFS >> fileSentence;
+        }
+    }
+
 }
 
 //Populate the board with cells based on pop density
@@ -121,21 +174,12 @@ void Board::updateBoard() {
     ++m_currGeneration;
 }
 
-
-
-void Board::testNeighbors() {
-    for (int i = 0; i < m_rows; ++i) {
-        for (int j = 0; j < m_columns; ++j) {
-            cout << m_grid[i][j].getAvgNeighbors();
-        }
-        cout << endl;
-    }
-}
-
+//Prints the board and generation number
 void Board::printBoard() {
     cout << "Generation: " << m_currGeneration << endl;
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
+            //PrintCell function returns X or - depending on status
             cout << m_grid[i][j].printCell();
         }
         cout << endl;
@@ -143,6 +187,25 @@ void Board::printBoard() {
     cout << endl;
 }
 
+//Returns the board as a string
+string Board::getBoard() {
+    string generation = "";
+    generation += "Generation: ";
+    generation += to_string(m_currGeneration);
+    generation += '\n';
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_columns; ++j) {
+            generation += m_grid[i][j].printCell();
+        }
+        generation += '\n';
+    }
+    generation += '\n';
+    return generation;  
+}
+
+//Checks if it is stable
+//Has 5 seperate strings storeed as generations
+//If 3 of them match, then the generation is considered stable
 bool Board::isStable() {
     if (m_currGeneration < 4) {
         return false;
@@ -160,6 +223,9 @@ bool Board::isStable() {
     return false;
 }
 
+//Has 5 seperate strings storeed as generations
+//For stability
+//If 3 of them match, then the generation is considered stable
 void Board::setGeneration() {
     if (m_currGeneration%5 == 0) {m_generation1 = "";}
     if (m_currGeneration%5 == 1) {m_generation2 = "";}
@@ -167,6 +233,7 @@ void Board::setGeneration() {
     if (m_currGeneration%5 == 3) {m_generation4 = "";}
     if (m_currGeneration%5 == 4) {m_generation5 = "";}
 
+    //For every 5 generations, it stores the generation as a string
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_columns; ++j) {
 
@@ -189,28 +256,7 @@ void Board::setGeneration() {
         }
     }
     
-    cout << m_generation1 << endl;
-    cout << m_generation2 << endl;
-    cout << m_generation3 << endl;
-    cout << m_generation4 << endl;
-    cout << m_generation5 << endl;  
-    cout << endl;
-
 }
-
-
-
-
-void Board::showNeighbors() {
-    for (int i = 0; i < m_rows; ++i) {
-        for (int j = 0; j < m_columns; ++j) {
-            cout << m_grid[i][j].getAmtNeighbors();
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
 
 
 
